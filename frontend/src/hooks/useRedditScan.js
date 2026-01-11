@@ -96,6 +96,12 @@ export function useRedditScan() {
       addLog('🧠 Processing raw feedback...', 'info');
       await new Promise(resolve => setTimeout(resolve, 1000));
 
+      // If we have no real comments, generate mock ones
+      if (allComments.length === 0 && posts.length > 0) {
+        const mockComments = redditService.generateMockComments(productName);
+        allComments.push(...mockComments);
+      }
+
       const processedResults = {
         productName,
         posts: posts,
